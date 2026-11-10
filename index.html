@@ -139,6 +139,61 @@ function updateGame() {
     drawGame();
 }
         // Step 4: Game over
+         function checkGameOver(head) {
+            // Check wall collision (assuming canvas layout goes from 0 to tileCount - 1)
+            const hitWall = head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount;
+
+            // Check self collision (skip index 0 because that is the head itself)
+            const hitSelf = snake.slice(1).some(segment => 
+                segment.x === head.x && segment.y === head.y
+            );
+
+            return hitWall || hitSelf;
+        }
+
+        function resetGame() {
+            // Reset snake to initial position (e.g., center tile)
+            snake = [
+                { x: 10, y: 10 },
+                { x: 9, y: 10 },
+                { x: 8, y: 10 }
+            ];
+            direction = { x: 1, y: 0 };
+            food = { x: 15, y: 15 };
+            score = 0;
+            document.getElementById("info").textContent = `Score: ${score}`;
+            placeFood();
+            drawGame();
+        }
+        
+        // Updated updateGame function integrating the collision check
+        function updateGame() {
+            const head = {
+                x: snake[0].x + direction.x,
+                y: snake[0].y + direction.y
+            };
+
+            // Before modifying the snake, verify if the next move triggers a game over
+            if (checkGameOver(head)) {
+                alert(`Game Over! Your final score was: ${score}`);
+                resetGame();
+                return; // Stop execution of the current frame
+            }
+
+            const ateFood = head.x === food.x && head.y === food.y;
+
+            snake.unshift(head);
+
+            if (ateFood) {
+                score++;
+                placeFood();
+            } else {
+                snake.pop();
+            }
+
+            document.getElementById("info").textContent = `Score: ${score}`;
+            drawGame();
+        }
         // Step 5: Improvements
         //
         // ===================================
