@@ -88,7 +88,7 @@
     drawGame();
 }
 
-setInterval(updateGame, 150);
+
 
         // Step 2: Keyboard controls (arrow keys)
         document.addEventListener("keydown", (event) => {
@@ -133,25 +133,6 @@ setInterval(updateGame, 150);
     ));
 }
 
-function updateGame() {
-    const head = {
-        x: snake[0].x + direction.x,
-        y: snake[0].y + direction.y
-    };
-    const ateFood = head.x === food.x && head.y === food.y;
-
-    snake.unshift(head);
-
-    if (ateFood) {
-        score++;
-        placeFood();
-    } else {
-        snake.pop();
-    }
-
-    document.getElementById("info").textContent = `Score: ${score}`;
-    drawGame();
-}
         // Step 4: Game over
          function checkGameOver(head) {
             // Check wall collision (assuming canvas layout goes from 0 to tileCount - 1)
@@ -212,6 +193,7 @@ function updateGame() {
             document.getElementById("info").textContent = `Score: ${score}`;
             drawGame();
         }
+        setInterval(updateGame, 180);
         
         // Step 5: Improvements
         document.getElementById("startBtn").addEventListener("click", () => {
