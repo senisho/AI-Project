@@ -185,6 +185,9 @@ function updateGame() {
             if (checkGameOver(head)) {
                 alert(`Game Over! Your final score was: ${score}`);
                 resetGame();
+                gameStarted = false;
+                document.getElementById("startScreen").style.display = "flex";
+                document.getElementById("startBtn").style.display = "block";
                 return; // Stop execution of the current frame
             }
 
